@@ -9,8 +9,10 @@ def main():
 class Application(tk.Tk):
     def __init__(self):
         super().__init__()
-        label = tk.Label(self, text="Enter axis (separated by comma)")
-        label.grid(row=0, column=0)
+        self.title("Graphline")
+
+        self.label = tk.Label(self, text="Enter axis (separated by comma)")
+        self.label.grid(row=0, column=0)
 
         X_axis = Axis_entry(self, text="Enter X-axis")
         Y_axis = Axis_entry(self, text="Enter Y-axis")
@@ -44,8 +46,15 @@ class Application(tk.Tk):
             self.after(1000, lambda: self.add_line_btn.config(text="Plot"))
             return
             
-
-        plt.plot(X_axis, Y_axis)
+        try:
+            plt.plot(X_axis, Y_axis)
+        except ValueError:
+            print("axis do not match")
+            self.label.config(foreground="red")
+            self.label.config(text="axis data amount do not match (exemple : x = 1, 2, 3 and y = 1, 2, 3, 4)")
+            self.after(10000, lambda: self.label.config(foreground="black"))
+            self.after(10000, lambda: self.label.config(text="Enter axis (separated by comma)"))
+            return
 
 class Axis_entry(tk.Entry):
     def __init__(self, parent, text=""):
