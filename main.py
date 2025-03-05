@@ -20,6 +20,11 @@ class Application(tk.Tk):
         X_axis.grid(row=1, column=0)
         Y_axis.grid(row=2, column=0)
 
+        options = ["graph1", "graph2"]
+        self.graphs_var = tk.StringVar(self)
+        graphs = tk.OptionMenu(self, self.graphs_var, *options, command=self.graphs_lists)
+        graphs.grid(row=0, column=2)
+
         self.add_line_btn = tk.Button(self, text="Plot", command=lambda: self.add_line(X_axis, Y_axis))
         self.add_line_btn.grid(row=0, column=1)
         self.bind("<Return>", lambda event: self.add_line(X_axis, Y_axis))
@@ -55,6 +60,14 @@ class Application(tk.Tk):
             self.after(10000, lambda: self.label.config(foreground="black"))
             self.after(10000, lambda: self.label.config(text="Enter axis (separated by comma)"))
             return
+    
+    def graphs_lists(self, option):
+        print(option)
+        match option:
+            case "graph1":
+                print("1!!!!!")
+            case "graph2":
+                print("2!!!!!")
 
 class Axis_entry(tk.Entry):
     def __init__(self, parent, text=""):
