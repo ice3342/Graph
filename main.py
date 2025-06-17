@@ -10,26 +10,36 @@ class Application(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Graphline")
+        self.config(background="#222222")
 
-        self.label = tk.Label(self, text="Enter axis (separated by comma)")
-        self.label.grid(row=0, column=0)
+        self.label = tk.Label(self,
+                              text="separated numbers by comma",
+                              width=25,
+                              background="#222222",
+                              foreground="#EEEEEE")
+        self.label.grid(row=2, column=0)
 
         X_axis = Axis_entry(self, text="Enter X-axis")
         Y_axis = Axis_entry(self, text="Enter Y-axis")
 
-        X_axis.grid(row=1, column=0)
-        Y_axis.grid(row=2, column=0)
+        X_axis.grid(row=0, column=0)
+        Y_axis.grid(row=1, column=0)
 
-        options = ["graph1", "graph2"]
-        self.graphs_var = tk.StringVar(self)
-        graphs = tk.OptionMenu(self, self.graphs_var, *options, command=self.graphs_lists)
-        graphs.grid(row=0, column=2)
-
-        self.add_line_btn = tk.Button(self, text="Plot", command=lambda: self.add_line(X_axis, Y_axis))
+        self.add_line_btn = tk.Button(self,
+                                      text="Add line",
+                                      width=7, height=1,
+                                      background="#222222",
+                                      foreground="#EEEEEE",
+                                      command=lambda: self.add_line(X_axis, Y_axis))
         self.add_line_btn.grid(row=0, column=1)
         self.bind("<Return>", lambda event: self.add_line(X_axis, Y_axis))
 
-        plot_btn = tk.Button(self, text="Show plot", command=plt.show)
+        plot_btn = tk.Button(self,
+                             text="Show graph", 
+                             width=7, height=1,
+                             command=plt.show,
+                             background="#202020",
+                             foreground="#EEEEEE")
         plot_btn.grid(row=1, column=1)
     
     def add_line(self, X_axis, Y_axis):
@@ -58,16 +68,8 @@ class Application(tk.Tk):
             self.label.config(foreground="red")
             self.label.config(text="axis data amount do not match (exemple : x = 1, 2, 3 and y = 1, 2, 3, 4)")
             self.after(10000, lambda: self.label.config(foreground="black"))
-            self.after(10000, lambda: self.label.config(text="Enter axis (separated by comma)"))
+            self.after(10000, lambda: self.label.config(text="separated numbers by comma"))
             return
-    
-    def graphs_lists(self, option):
-        print(option)
-        match option:
-            case "graph1":
-                print("1!!!!!")
-            case "graph2":
-                print("2!!!!!")
 
 class Axis_entry(tk.Entry):
     def __init__(self, parent, text=""):
